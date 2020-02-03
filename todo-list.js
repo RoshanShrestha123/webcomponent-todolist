@@ -20,6 +20,9 @@ todo_list_template.innerHTML = `
    .completed{
        text-decoration:line-through;
    }
+   .incompleted{
+    text-decoration:none;
+}
    
 </style>
 <div class="list-wrapper"> 
@@ -34,16 +37,33 @@ class TodoList extends HTMLElement{
         this.attachShadow({mode:'open'});
         this.shadowRoot.appendChild(todo_list_template.content.cloneNode(true));    
         this.checkBox = this.shadowRoot.getElementById('checkBox');
-        console.log(this.checkBox);
+        this.list = this.shadowRoot.getElementById('list');
+        this.checkBox.addEventListener('change',()=>{
+            console.log("checked");
             
+        })            
     }
    
     set data(list){
+
         this.shadowRoot.getElementById('list').innerHTML = list.task;
         if(list.completed){
-            this.shadowRoot.getElementById('list').style.textDecoration = "line-through";
+            this.checkBox.checked = true;
+            this.list.setAttribute('class','completed');
+            
+        }else{
+            this.checkBox.checked = false;
+            this.list.setAttribute('class','incomplete');
+
+
+        
+            
+
         }
 
+    }
+    testFunction(){
+        console.log(" this is the function test");
     }
 }
 window.customElements.define('todo-list',TodoList);

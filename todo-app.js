@@ -1,5 +1,6 @@
 import './todo-list.js';
 
+
 const todo_app_template = document.createElement('template');
 todo_app_template.innerHTML = `
 <style>
@@ -36,7 +37,7 @@ class TodoApp extends HTMLElement{
         this.button = this.shadowRoot.getElementById('button');
         this.inputField = this.shadowRoot.getElementById('input');
         this.listHolder = this.shadowRoot.getElementById('list-holder');
-        this.data = [{task:"my task",completed:false},{task:"my task",completed:true},{task:"my task",completed:false}];
+        this.data = [{task:"my task",completed:true},{task:"my task",completed:false},{task:"my task",completed:false}];
         this.newList = '';
        
        
@@ -44,8 +45,6 @@ class TodoApp extends HTMLElement{
 
     connectedCallback(){
         this.render();
-        
-
         this.inputField.addEventListener('change',(e)=>{
             this.newList = e.target.value;
         });
@@ -74,6 +73,7 @@ class TodoApp extends HTMLElement{
         })
         
     }
+
     handleChange = (e) =>{
 
     }
