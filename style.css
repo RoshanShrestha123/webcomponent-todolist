@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #ebebeb;
+    font-family: 'Roboto', sans-serif;
+}
+.container-wrapper{
+    margin: 20px;
+}
+@media screen and (min-width: 480px) {
+    body {
+     width: 50%;
+    }
+  }
