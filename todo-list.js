@@ -37,11 +37,8 @@ class TodoList extends HTMLElement{
         this.attachShadow({mode:'open'});
         this.shadowRoot.appendChild(todo_list_template.content.cloneNode(true));    
         this.checkBox = this.shadowRoot.getElementById('checkBox');
-        this.list = this.shadowRoot.getElementById('list');
-        this.checkBox.addEventListener('change',()=>{
-            console.log("checked");
-            
-        })            
+        this.list = this.shadowRoot.getElementById('list');    
+             
     }
    
     set data(list){

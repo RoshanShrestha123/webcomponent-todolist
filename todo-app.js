@@ -29,54 +29,68 @@ todo_app_template.innerHTML = `
   
 
 `
-class TodoApp extends HTMLElement{
-    constructor(){
+class TodoApp extends HTMLElement {
+    constructor() {
         super();
-        this.attachShadow({mode:'open'});
+        this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(todo_app_template.content.cloneNode(true));
         this.button = this.shadowRoot.getElementById('button');
         this.inputField = this.shadowRoot.getElementById('input');
         this.listHolder = this.shadowRoot.getElementById('list-holder');
-        this.data = [{task:"my task",completed:true},{task:"my task",completed:false},{task:"my task",completed:false}];
+        this.data = [{ id:1,task: "Learn web component", completed: true }, { id:2,task: "Make todo app", completed: true }, {id:3, task: "Learn Lit HTML", completed: false }];
         this.newList = '';
-       
-       
+
+
     }
 
-    connectedCallback(){
+    connectedCallback() {
         this.render();
-        this.inputField.addEventListener('change',(e)=>{
+        this.inputField.addEventListener('change', (e) => {
             this.newList = e.target.value;
         });
-        this.button.addEventListener('click',()=>{
-            if(this.inputField.value != ''){
-                this.data.push({
-                    task:this.newList,
-                    completed:false
-                });
-                this.newList = '';
-                this.inputField.value = '';
-                this.render();
+        this.button.addEventListener('click', () => {
+            if (this.inputField.value != '') {
+                this.data = [...this.data, {
+                    task: this.newList,
+                    completed: false
+                }]
+            this.newList = '';
+            this.inputField.value = '';
+            this.render();
             }
             
         });
-        
-    }
 
-    render=()=>{
-        this.listHolder.innerHTML= '';
-        this.data.forEach(list => {
+}
+
+render = () => {
+    this.listHolder.innerHTML = '';
+    this.data.forEach(list => {  
         this.el = document.createElement('todo-list');
+        this.el.setAttribute('key','test');
         this.el.data = list;
-        this.listHolder.appendChild(this.el); 
-            
+        this.el.shadowRoot.querySelector('.list-wrapper').querySelector('#checkBox').addEventListener('change',()=>{
+            this.handleCheckboxChange(list.id);
         })
+        this.listHolder.appendChild(this.el);
         
-    }
+    })
+}
 
-    handleChange = (e) =>{
-
-    }
+handleCheckboxChange=(id)=>{
+    this.data.map(list=>{
+        if(list.id===id){
+            list.completed = !list.completed;
+        }
+    })    
+    this.render();
+    
     
 }
-window.customElements.define('todo-app',TodoApp);
+
+
+
+
+    
+}
+window.customElements.define('todo-app', TodoApp);
