@@ -1,10 +1,8 @@
 import './todo-list.js';
+import {html,render} from './node_modules/lit-html/lit-html.js';
 
 
-
-const todo_app_template = document.createElement('template');
-todo_app_template.innerHTML = `
-<style>
+const todoAppTemplate = () => html` <style>
 
     input{
         padding:5px;
@@ -25,16 +23,12 @@ todo_app_template.innerHTML = `
         <button id="button">Add New</button>
     </div>
     <div id="list-holder">
-    </div>
-
-  
-
-`
+    </div>`;
 class TodoApp extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.shadowRoot.appendChild(todo_app_template.content.cloneNode(true));
+        render(todoAppTemplate(),this.shadowRoot);        
         this.button = this.shadowRoot.getElementById('button');
         this.inputField = this.shadowRoot.getElementById('input');
         this.listHolder = this.shadowRoot.getElementById('list-holder');
@@ -47,7 +41,7 @@ class TodoApp extends HTMLElement {
     }
 
     connectedCallback() {
-        this.render();
+        this.update();
         this.inputField.addEventListener('change', (e) => {
             this.newList = e.target.value;
         });
@@ -63,7 +57,7 @@ class TodoApp extends HTMLElement {
                 }]
             this.newList = '';
             this.inputField.value = '';
-            this.render();
+            this.update();
             }
             
         });
@@ -75,10 +69,10 @@ class TodoApp extends HTMLElement {
        this.data =  this.data.map(
            list=>(list.id === id ? {...list,completed:!list.completed}:list)
         );
-        this.render();
+        this.update();
     }
 
-    render = () => {
+    update = () => {
         this.listHolder.innerHTML = '';
         this.data.forEach(list => {  
             this.el = document.createElement('todo-list');
