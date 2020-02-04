@@ -1,6 +1,7 @@
 import './todo-list.js';
 
 
+
 const todo_app_template = document.createElement('template');
 todo_app_template.innerHTML = `
 <style>
@@ -49,10 +50,14 @@ class TodoApp extends HTMLElement {
             this.newList = e.target.value;
         });
         this.button.addEventListener('click', () => {
+            let lastId = this.data;
+            lastId = lastId[lastId.length-1].id;
+            
             if (this.inputField.value != '') {
                 this.data = [...this.data, {
                     task: this.newList,
-                    completed: false
+                    completed: false,
+                    id:lastId+1
                 }]
             this.newList = '';
             this.inputField.value = '';
@@ -73,6 +78,7 @@ render = () => {
             this.handleCheckboxChange(list.id);
         })
         this.listHolder.appendChild(this.el);
+        
         
     })
 }
