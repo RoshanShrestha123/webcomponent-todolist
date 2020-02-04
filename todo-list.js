@@ -37,30 +37,29 @@ class TodoList extends HTMLElement{
         this.attachShadow({mode:'open'});
         this.shadowRoot.appendChild(todo_list_template.content.cloneNode(true));    
         this.checkBox = this.shadowRoot.getElementById('checkBox');
-        this.list = this.shadowRoot.getElementById('list');    
-             
+        this.checkBox.addEventListener('change',() => {
+            this.handleToggler(this.todoList.id);
+            console.log("changed");
+            
+        })
+        this.list = this.shadowRoot.getElementById('list');            
     }
    
     set data(list){
-
-        this.shadowRoot.getElementById('list').innerHTML = list.task;
-        if(list.completed){
+        this.todoList = list;
+        this.shadowRoot.getElementById('list').innerHTML = this.todoList.task;
+        if(this.todoList.completed){
             this.checkBox.checked = true;
             this.list.setAttribute('class','completed');
             
         }else{
             this.checkBox.checked = false;
             this.list.setAttribute('class','incomplete');
-
-
-        
-            
-
         }
 
     }
-    testFunction(){
-        console.log(" this is the function test");
+    set toggler(toggler){
+        this.handleToggler = toggler; 
     }
 }
 window.customElements.define('todo-list',TodoList);

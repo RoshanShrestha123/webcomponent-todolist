@@ -38,7 +38,9 @@ class TodoApp extends HTMLElement {
         this.button = this.shadowRoot.getElementById('button');
         this.inputField = this.shadowRoot.getElementById('input');
         this.listHolder = this.shadowRoot.getElementById('list-holder');
-        this.data = [{ id:1,task: "Learn web component", completed: true }, { id:2,task: "Make todo app", completed: true }, {id:3, task: "Learn Lit HTML", completed: false }];
+        this.data = [{ id:1,task: "Learn web component", completed: true },
+                     { id:2,task: "Make todo app", completed: true },
+                     {id:3, task: "Learn Lit HTML", completed: false }];
         this.newList = '';
 
 
@@ -66,37 +68,28 @@ class TodoApp extends HTMLElement {
             
         });
 
-}
+    }
+    
+    toggler = (id) => {
+        console.log(" this is the toggler function ",id);
+       this.data =  this.data.map(
+           list=>(list.id === id ? {...list,completed:!list.completed}:list)
+        );
+        this.render();
+    }
 
-render = () => {
-    this.listHolder.innerHTML = '';
-    this.data.forEach(list => {  
-        this.el = document.createElement('todo-list');
-        this.el.setAttribute('key','test');
-        this.el.data = list;
-        this.el.shadowRoot.querySelector('.list-wrapper').querySelector('#checkBox').addEventListener('change',()=>{
-            this.handleCheckboxChange(list.id);
+    render = () => {
+        this.listHolder.innerHTML = '';
+        this.data.forEach(list => {  
+            this.el = document.createElement('todo-list');
+            this.el.setAttribute('key','test');
+            this.el.data = list;
+            this.el.toggler = this.toggler;
+            this.listHolder.appendChild(this.el);
+            
+            
         })
-        this.listHolder.appendChild(this.el);
-        
-        
-    })
-}
-
-handleCheckboxChange=(id)=>{
-    this.data.map(list=>{
-        if(list.id===id){
-            list.completed = !list.completed;
-        }
-    })    
-    this.render();
-    
-    
-}
-
-
-
-
+    }
     
 }
 window.customElements.define('todo-app', TodoApp);
